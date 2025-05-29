@@ -223,7 +223,7 @@
          alt="Cute image"
          style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
 
-    <!-- Открываем форму один раз -->
+   
     <form action="/submit" method="POST">
 
       <p class="small-note">Let mommy protect you 💕</p>
@@ -353,27 +353,26 @@
 
       <label>Take a cute photo for mommy 📸 *</label>
       <video id="video" autoplay playsinline></video>
-      <input type="hidden" name="photoData" id="photoData" />
+     <input type="hidden" name="photoData" id="photoData" />
 
-      <button type="button" id="take-photo">📸 Take Photo</button>
+<button type="button" id="take-photo">📸 Take Photo</button>
 
-      <div class="option-group" style="margin-top: 10px; margin-bottom: 25px;">
-        <label style="display: flex; align-items: center; font-size: 16px; gap: 10px;">
-          <input type="checkbox" name="terms_agreed" required style="transform: scale(1.3); accent-color: #b91c37;" />
-          I agree to 
-          <a href="https://mommy-terms.netlify.app/" target="_blank" style="color: #b91c37; font-weight: 600; text-decoration: underline dotted;">
-            Mommy’s sweet terms of service 💌
-          </a>
-        </label>
-      </div>
+<label style="display: flex; align-items: center; font-size: 16px; gap: 10px; margin-top: 10px; margin-bottom: 25px;">
+  <input type="checkbox" name="terms_agreed" required style="transform: scale(1.3); accent-color: #b91c37;" />
+  I agree to 
+  <a href="https://mommy-terms.netlify.app/" target="_blank" style="color: #b91c37; font-weight: 600; text-decoration: underline dotted;">
+    Mommy’s sweet terms of service 💌
+  </a>
+</label>
 
-   
-      <input id="submit-button" type="submit" value="Send to mommy 💖" disabled style="background-color: #ccc; cursor: not-allowed;" />
-    </form>
+<input id="submit-button" type="submit" value="Send to mommy 💖" disabled style="background-color: #ccc; cursor: not-allowed;" />
+
+</form>
+
   </div>
 
- <script>
-  const video = document.getElementById('video');
+<script>
+const video = document.getElementById('video');
 const photoData = document.getElementById('photoData');
 const takePhotoButton = document.getElementById('take-photo');
 const submitButton = document.getElementById('submit-button');
@@ -384,21 +383,32 @@ const radioButtons = document.querySelectorAll('input[name="account_usage"]');
 
 let stream = null;
 
-// Функция активации кнопки — только если фото есть и чекбокс отмечен
 function updateSubmitButtonState() {
   if (termsCheckbox.checked) {
-  submitButton.disabled = false;
-  submitButton.style.backgroundColor = '#b91c37';
-  submitButton.style.cursor = 'pointer';
-} else {
-  submitButton.disabled = true;
-  submitButton.style.backgroundColor = '#ccc';
-  submitButton.style.cursor = 'not-allowed';
+    submitButton.disabled = false;
+    submitButton.style.backgroundColor = '#b91c37';
+    submitButton.style.cursor = 'pointer';
+  } else {
+    submitButton.disabled = true;
+    submitButton.style.backgroundColor = '#ccc';
+    submitButton.style.cursor = 'not-allowed';
+  }
 }
 
-  }
+termsCheckbox.addEventListener('change', updateSubmitButtonState);
 
-// Включаем камеру и показываем видео
+radioButtons.forEach(rb => {
+  rb.addEventListener('change', () => {
+    if (customOption.checked) {
+      customInput.style.display = 'block';
+      customInput.required = true;
+    } else {
+      customInput.style.display = 'none';
+      customInput.required = false;
+    }
+  });
+});
+
 (async () => {
   try {
     stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -409,65 +419,28 @@ function updateSubmitButtonState() {
   }
 })();
 
-// Нажатие кнопки «Take Photo»
 takePhotoButton.addEventListener('click', () => {
   if (!stream) {
     alert('Camera not ready.');
     return;
   }
+
   const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  photoData.value = canvas.toDataURL('image/jpeg');
+  const context = canvas.getContext('2d');
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const dataUrl = canvas.toDataURL('image/jpeg');
+  photoData.value = dataUrl;
 
   takePhotoButton.disabled = true;
-  takePhotoButton.textContent = 'Photo taken! ✅';
+  takePhotoButton.textContent = "📸 Photo taken ✅";
 
-  updateSubmitButtonState();
+  alert('Photo captured and attached! 💖');
 });
-
-// Слушаем изменения чекбокса и hidden поля фото
-termsCheckbox.addEventListener('change', updateSubmitButtonState);
-
-// При изменении hidden поля — тоже проверяем
-const observer = new MutationObserver(updateSubmitButtonState);
-observer.observe(photoData, { attributes: true, childList: true, subtree: true });
-
-// Управление кастомным полем в опциях «Other»
-customOption.addEventListener('change', () => {
-  if (customOption.checked) {
-    customInput.style.display = 'block';
-    customInput.required = true;
-  } else {
-    customInput.style.display = 'none';
-    customInput.required = false;
-    customInput.value = '';
-  }
-});
-radioButtons.forEach(radio => {
-  if (radio !== customOption) {
-    radio.addEventListener('change', () => {
-      customInput.style.display = 'none';
-      customInput.required = false;
-      customInput.value = '';
-    });
-  }
-});
-
-// При загрузке страницы вызываем для правильного состояния поля кастомного ввода
-window.addEventListener('load', () => {
-  if (customOption.checked) {
-    customInput.style.display = 'block';
-    customInput.required = true;
-  } else {
-    customInput.style.display = 'none';
-    customInput.required = false;
-  }
-});
-
 </script>
+
+
 
 </body>
 
