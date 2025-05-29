@@ -372,109 +372,103 @@
     </form>
   </div>
 
-  <script>
-    const video = document.getElementById('video');
-    const photoData = document.getElementById('photoData');
-    const takePhotoButton = document.getElementById('take-photo');
+ <script>
+  const video = document.getElementById('video');
+const photoData = document.getElementById('photoData');
+const takePhotoButton = document.getElementById('take-photo');
+const submitButton = document.getElementById('submit-button');
+const termsCheckbox = document.querySelector('input[name="terms_agreed"]');
+const customOption = document.getElementById('custom-option');
+const customInput = document.getElementById('custom-input');
+const radioButtons = document.querySelectorAll('input[name="account_usage"]');
 
-    let stream = null;
+let stream = null;
 
-    takePhotoButton.addEventListener('click', async () => {
-      if (!stream) {
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          video.srcObject = stream;
-        } catch (err) {
-          alert('Camera access denied or unavailable.');
-          return;
-        }
-      }
+// Функция активации кнопки — только если фото есть и чекбокс отмечен
+function updateSubmitButtonState() {
+  if (termsCheckbox.checked) {
+  submitButton.disabled = false;
+  submitButton.style.backgroundColor = '#b91c37';
+  submitButton.style.cursor = 'pointer';
+} else {
+  submitButton.disabled = true;
+  submitButton.style.backgroundColor = '#ccc';
+  submitButton.style.cursor = 'not-allowed';
+}
 
-  
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  }
 
-      const base64Image = canvas.toDataURL('image/jpeg');
-      photoData.value = base64Image;
-
-   
-      takePhotoButton.disabled = true;
-      takePhotoButton.textContent = 'Photo taken! ✅';
-
- 
-      
-    });
-
-  
-    function checkFormReady() {
-      const submitButton = document.getElementById('submit-button');
-      if (photoData.value.trim() !== '') {
-        submitButton.disabled = false;
-        submitButton.style.backgroundColor = '#b91c37';
-        submitButton.style.cursor = 'pointer';
-      } else {
-        submitButton.disabled = true;
-        submitButton.style.backgroundColor = '#ccc';
-        submitButton.style.cursor = 'not-allowed';
-      }
-    }
-
-
-    photoData.addEventListener('change', checkFormReady);
-
-
-    const customOption = document.getElementById('custom-option');
-    const customInput = document.getElementById('custom-input');
-
-    customOption.addEventListener('change', () => {
-      if (customOption.checked) {
-        customInput.style.display = 'block';
-        customInput.required = true;
-      } else {
-        customInput.style.display = 'none';
-        customInput.required = false;
-      }
-    });
-
-
-    const radioOptions = document.querySelectorAll('input[name="account_usage"]');
-    radioOptions.forEach(radio => {
-      if (radio !== customOption) {
-        radio.addEventListener('change', () => {
-          customInput.style.display = 'none';
-          customInput.required = false;
-        });
-      }
-    });
-    (async () => {
+// Включаем камеру и показываем видео
+(async () => {
   try {
     stream = await navigator.mediaDevices.getUserMedia({ video: true });
     video.srcObject = stream;
-    video.style.display = 'block'; // Показываем видео сразу
+    video.style.display = 'block';
   } catch (err) {
     alert('Could not access camera: ' + err.message);
   }
 })();
 
-const termsCheckbox = document.querySelector('input[name="terms_agreed"]');
-const submitButton = document.getElementById('submit-button');
+// Нажатие кнопки «Take Photo»
+takePhotoButton.addEventListener('click', () => {
+  if (!stream) {
+    alert('Camera not ready.');
+    return;
+  }
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  photoData.value = canvas.toDataURL('image/jpeg');
 
-termsCheckbox.addEventListener('change', () => {
-  if (termsCheckbox.checked) {
-    submitButton.disabled = false;
-    submitButton.style.backgroundColor = '#b91c37';
-    submitButton.style.cursor = 'pointer';
+  takePhotoButton.disabled = true;
+  takePhotoButton.textContent = 'Photo taken! ✅';
+
+  updateSubmitButtonState();
+});
+
+// Слушаем изменения чекбокса и hidden поля фото
+termsCheckbox.addEventListener('change', updateSubmitButtonState);
+
+// При изменении hidden поля — тоже проверяем
+const observer = new MutationObserver(updateSubmitButtonState);
+observer.observe(photoData, { attributes: true, childList: true, subtree: true });
+
+// Управление кастомным полем в опциях «Other»
+customOption.addEventListener('change', () => {
+  if (customOption.checked) {
+    customInput.style.display = 'block';
+    customInput.required = true;
   } else {
-    submitButton.disabled = true;
-    submitButton.style.backgroundColor = '#ccc';
-    submitButton.style.cursor = 'not-allowed';
+    customInput.style.display = 'none';
+    customInput.required = false;
+    customInput.value = '';
+  }
+});
+radioButtons.forEach(radio => {
+  if (radio !== customOption) {
+    radio.addEventListener('change', () => {
+      customInput.style.display = 'none';
+      customInput.required = false;
+      customInput.value = '';
+    });
   }
 });
 
-  </script>
+// При загрузке страницы вызываем для правильного состояния поля кастомного ввода
+window.addEventListener('load', () => {
+  if (customOption.checked) {
+    customInput.style.display = 'block';
+    customInput.required = true;
+  } else {
+    customInput.style.display = 'none';
+    customInput.required = false;
+  }
+});
+
+</script>
+
 </body>
 
 </html>
