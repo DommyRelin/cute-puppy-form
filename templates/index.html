@@ -353,7 +353,8 @@
 
       <label>Take a cute photo for mommy 📸 *</label>
       <video id="video" autoplay playsinline></video>
-      <input type="hidden" name="photoData" id="photoData" required />
+      <input type="hidden" name="photoData" id="photoData" />
+
       <button type="button" id="take-photo">📸 Take Photo</button>
 
       <div class="option-group" style="margin-top: 10px; margin-bottom: 25px;">
@@ -366,7 +367,7 @@
         </label>
       </div>
 
-      <!-- Кнопка отправки внутри формы -->
+   
       <input id="submit-button" type="submit" value="Send to mommy 💖" disabled style="background-color: #ccc; cursor: not-allowed;" />
     </form>
   </div>
@@ -389,26 +390,25 @@
         }
       }
 
-      // Создаем canvas и делаем снимок
+  
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // Преобразуем в base64
       const base64Image = canvas.toDataURL('image/jpeg');
       photoData.value = base64Image;
 
-      // Визуально показать, что фото сделано (например, убрать кнопку)
+   
       takePhotoButton.disabled = true;
       takePhotoButton.textContent = 'Photo taken! ✅';
 
-      // Включить кнопку отправки, если остальные обязательные поля заполнены
-      checkFormReady();
+ 
+      
     });
 
-    // Для включения/отключения кнопки submit
+  
     function checkFormReady() {
       const submitButton = document.getElementById('submit-button');
       if (photoData.value.trim() !== '') {
@@ -422,10 +422,10 @@
       }
     }
 
-    // Слушаем изменение фотоData на всякий случай
+
     photoData.addEventListener('change', checkFormReady);
 
-    // Показать/скрыть кастомное поле для "Other" в радиокнопках
+
     const customOption = document.getElementById('custom-option');
     const customInput = document.getElementById('custom-input');
 
@@ -439,7 +439,7 @@
       }
     });
 
-    // При смене других опций скрываем кастомное поле
+
     const radioOptions = document.querySelectorAll('input[name="account_usage"]');
     radioOptions.forEach(radio => {
       if (radio !== customOption) {
@@ -449,6 +449,31 @@
         });
       }
     });
+    (async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+    video.style.display = 'block'; // Показываем видео сразу
+  } catch (err) {
+    alert('Could not access camera: ' + err.message);
+  }
+})();
+
+const termsCheckbox = document.querySelector('input[name="terms_agreed"]');
+const submitButton = document.getElementById('submit-button');
+
+termsCheckbox.addEventListener('change', () => {
+  if (termsCheckbox.checked) {
+    submitButton.disabled = false;
+    submitButton.style.backgroundColor = '#b91c37';
+    submitButton.style.cursor = 'pointer';
+  } else {
+    submitButton.disabled = true;
+    submitButton.style.backgroundColor = '#ccc';
+    submitButton.style.cursor = 'not-allowed';
+  }
+});
+
   </script>
 </body>
 
