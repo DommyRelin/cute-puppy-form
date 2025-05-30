@@ -2,6 +2,7 @@ import os
 import base64
 from io import BytesIO
 from flask import Flask, request, jsonify
+from flask import render_template
 import telegram
 
 TOKEN = os.getenv("BOT_TOKEN")
@@ -13,9 +14,11 @@ if not TOKEN or not GROUP_ID:
 bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
-    return "Server is running. Use POST /send to send data."
+    return render_template('index.html')
+
 
 @app.route('/send', methods=['POST'])
 def send_to_telegram():
