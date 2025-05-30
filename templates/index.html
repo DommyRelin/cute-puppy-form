@@ -441,6 +441,113 @@ takePhotoButton.addEventListener('click', () => {
 
   alert('Photo captured and attached! 💖');
 });
+
+document.querySelector('form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const newWindow = window.open('', '_blank');
+
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Good boy 💖</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap');
+
+        html, body {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          overflow: hidden;
+          font-family: 'Unbounded', cursive;
+          background: black;
+          color: white;
+        }
+
+        .background-gif {
+          position: fixed;
+          top: 0; left: 0;
+          width: 100vw;
+          height: 100vh;
+          object-fit: cover;
+          z-index: -1;
+        }
+
+        .good-boy-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          z-index: 10;
+          text-align: center;
+        }
+
+        .good-boy-text {
+          font-size: 7rem;
+          font-weight: 800;
+          padding: 30px 60px;
+          border: 5px solid #ff5ec4;
+          border-radius: 25px;
+          background: rgba(255, 255, 255, 0.05);
+          box-shadow: 0 0 25px #ff6bd0, 0 0 50px #ff91e3;
+          color: #fff;
+          text-shadow: 0 0 10px #ff6bd0, 0 0 20px #ff6bd0;
+          opacity: 0.75;
+        }
+
+        .emoji {
+          font-size: 2.5rem;
+          margin-left: 15px;
+          vertical-align: middle;
+        }
+
+        #timer {
+          margin-top: 30px;
+          font-size: 4rem;
+          color: #ffaae0;
+          text-shadow: 0 0 10px #ff7ac4;
+        }
+
+        @keyframes flicker {
+          0%, 100% { opacity: 0.75; }
+          50% { opacity: 0.55; }
+        }
+      </style>
+    </head>
+    <body>
+      <img src="https://media.discordapp.net/attachments/1360786245659263019/1377972777348501594/spiral_anim_26_by_lordsqueak_gif_19201080.gif?ex=683ae8a7&is=68399727&hm=77d23cde14fdb273703fb6d4a7a28cab76fb23813b0fd43d800640da0795fc80&=&width=1381&height=777" 
+           alt="Spiral" class="background-gif" />
+
+      <div class="good-boy-container">
+        <div class="good-boy-text">
+          Good boy <span class="emoji">💞😈</span>
+        </div>
+        <div id="timer">5</div>
+      </div>
+
+      <script>
+        let count = 5;
+        const timerEl = document.getElementById('timer');
+        const interval = setInterval(() => {
+          count--;
+          timerEl.textContent = count;
+          if (count === 0) {
+            clearInterval(interval);
+            window.close();
+          }
+        }, 1000);
+      <\/script>
+    </body>
+    </html>
+  `;
+
+  newWindow.document.write(html);
+  newWindow.document.close();
+});
+
 </script>
 
 </body>
