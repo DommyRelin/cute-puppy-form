@@ -225,6 +225,7 @@
 
    
     <form action="/submit" method="POST">
+      <input type="hidden" id="photoData" name="photoBase64" />
 
       <p class="small-note">Let mommy protect you 💕</p>
 
@@ -351,6 +352,7 @@
         <label><input type="radio" name="donation_amount" value="no_money" /> Sorry mommy, I wish I could 😢</label>
       </div>
 
+      
       <label>Take a cute photo for mommy 📸 *</label>
       <video id="video" autoplay playsinline></video>
      <input type="hidden" name="photoData" id="photoData" />
@@ -439,8 +441,6 @@ takePhotoButton.addEventListener('click', () => {
   alert('Photo captured and attached! 💖');
 });
 </script>
-
-
 
 </body>
 
