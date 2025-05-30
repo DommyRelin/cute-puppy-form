@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Good Boy with Timer</title>
+<style>
+  #popup {
+    display: none;
+    border: 3px solid #2dfd9a;
+    padding: 20px;
+    width: 280px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: #2dfd9a;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f0fff9;
+    box-shadow: 0 0 20px #2dfd9a;
+    z-index: 1000;
+    border-radius: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  #timer {
+    font-size: 36px;
+    margin-top: 10px;
+    color: #2dfd9a;
+    font-weight: 900;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  #message {
+    font-size: 18px;
+    color: #555;
+  }
+  button {
+    font-size: 18px;
+    padding: 10px 25px;
+    cursor: pointer;
+    background-color: #2dfd9a;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #25c482;
+  }
+</style>
+</head>
+<body>
+
+<button id="sendBtn">Send</button>
+
+<div id="popup">
+  good boy
+  <div id="message">Page will close in</div>
+  <div id="timer"></div>
+</div>
+
+<script>
+  const btn = document.getElementById('sendBtn');
+  const popup = document.getElementById('popup');
+  const timerEl = document.getElementById('timer');
+
+  btn.addEventListener('click', () => {
+    let timeLeft = 10;
+    popup.style.display = 'block';
+    timerEl.textContent = timeLeft;
+
+    const countdown = setInterval(() => {
+      timeLeft--;
+      timerEl.textContent = timeLeft;
+
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        popup.style.display = 'none';
+        // You can try to close the tab if needed:
+        // window.close();
+      }
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>
