@@ -54,7 +54,7 @@ submitButton.addEventListener('click', async () => {
     const result = await response.json();
 
     if (result.success) {
-      alert("Sent to Telegram! 💖");
+      alert("Sent to Mommy! 💖");
       photoData.value = '';
       form.reset();
       if (preview) preview.style.display = 'none';
