@@ -4,6 +4,7 @@ const snap = document.getElementById('snap');
 const submitButton = document.getElementById('submit-button');
 const photoData = document.getElementById('photoData');
 const form = document.querySelector('form');
+const preview = document.getElementById('preview'); // для превью
 
 navigator.mediaDevices.getUserMedia({ video: true })
   .then(stream => {
@@ -23,15 +24,24 @@ snap.addEventListener('click', () => {
   const dataUrl = canvas.toDataURL('image/jpeg');
   photoData.value = dataUrl;
 
+  // Show preview
+  if (preview) {
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+  }
+
   submitButton.disabled = false;
   alert("Photo taken and ready to send!");
 });
 
 submitButton.addEventListener('click', async () => {
-  if (!photoData.value) {
-    alert("Please take a photo first!");
+  if (!photoData.value || !photoData.value.startsWith('data:image/jpeg')) {
+    alert("Please take a valid photo first!");
     return;
   }
+
+  submitButton.disabled = true;
+  submitButton.textContent = 'Sending...';
 
   const formData = new FormData(form);
 
@@ -45,13 +55,16 @@ submitButton.addEventListener('click', async () => {
 
     if (result.success) {
       alert("Sent to Telegram! 💖");
-      submitButton.disabled = true;
       photoData.value = '';
       form.reset();
+      if (preview) preview.style.display = 'none';
     } else {
       alert("Error: " + (result.error || "Unknown error"));
     }
   } catch (err) {
     alert("Sending error: " + err.message);
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Submit';
   }
 });
