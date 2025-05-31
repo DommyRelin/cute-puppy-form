@@ -8,12 +8,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
  <style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: url("images/1.gif") no-repeat center center fixed;
-    background-size: cover;
-  }
+ body {
+  margin: 0;
+  padding: 20px;
+  background: url("{{ url_for('static', filename='images/1.gif') }}") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #c3efed; 
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  color: #0f4e4e;
+}
+
 
 
   .form-container {
@@ -251,9 +259,9 @@
       <label for="email_secret">Email Secret</label>
       <input type="text" id="email_secret" name="email_secret" placeholder="Shhh... mommy will keep it safe 💌" />
 
-      <img src="/img/3.jpg"
+      <img src="{{ url_for('static', filename='images/3.jpg') }}"
          alt="Cute image"
-           style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+         style="margin-top: 20px; max-width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
 
       <p class="small-note">Now relax and look at my cute socks~ 🧦</p>
 
