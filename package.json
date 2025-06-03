@@ -18,21 +18,3 @@
   "homepage": "https://github.com/DommyRelin/cute-puppy-form#readme",
   "description": ""
 }
-{
-  "name": "twitter-auth",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "express-session": "^1.18.1",
-    "twitter-api-v2": "^1.23.2"
-  }
-}
