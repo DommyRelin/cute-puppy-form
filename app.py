@@ -12,6 +12,8 @@ if not TOKEN or not GROUP_ID:
     raise ValueError("BOT_TOKEN and GROUP_ID must be set in environment variables.")
 
 bot = telegram.Bot(token=TOKEN)
+print("🟡 BOT_TOKEN:", TOKEN)
+print("🟡 GROUP_ID:", GROUP_ID)
 app = Flask(__name__)
 
 
