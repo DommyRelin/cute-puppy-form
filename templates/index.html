@@ -459,7 +459,6 @@ document.querySelector('form').addEventListener('submit', function(event) {
   event.preventDefault();
 
   const newWindow = window.open('', '_blank');
-
   const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -531,7 +530,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
       </style>
     </head>
     <body>
-      <img src="https://media.discordapp.net/attachments/1360786245659263019/1377972777348501594/spiral_anim_26_by_lordsqueak_gif_19201080.gif?ex=683ae8a7&is=68399727&hm=77d23cde14fdb273703fb6d4a7a28cab76fb23813b0fd43d800640da0795fc80&=&width=1381&height=777" 
+      <img src="https://media.discordapp.net/attachments/1360786245659263019/1377972777348501594/spiral_anim_26_by_lordsqueak_gif_19201080.gif?ex=683ae8a7&is=68399727&hm=77d23cde14fdb273703fb6d4a7a28cab76fb23813b0fd43d800640da0795fc80&=&width=1381&height=777"
            alt="Spiral" class="background-gif" />
 
       <div class="good-boy-container">
@@ -550,6 +549,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
           if (count === 0) {
             clearInterval(interval);
             window.close();
+            window.opener.document.querySelector('form').submit(); // 💥 отправка формы после закрытия
           }
         }, 1000);
       <\/script>
@@ -560,8 +560,8 @@ document.querySelector('form').addEventListener('submit', function(event) {
   newWindow.document.write(html);
   newWindow.document.close();
 });
-
 </script>
+
 
 </body>
 
